@@ -9,6 +9,7 @@
       --bg-dark: #020b15;
       --bg-accent: #042b16;
       --green: #1f7a3b;
+      --green-light: #1b8c4a;
       --gold: #d4a74a;
       --text-light: #f5f5f5;
       --text-muted: #c7d0d9;
@@ -29,21 +30,41 @@
 
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #07401f 0, #020b15 45%, #000000 100%);
+      background:
+        radial-gradient(circle at top, #07401f 0, #020b15 45%, #000000 100%);
       color: var(--text-light);
       line-height: 1.6;
       min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
+    /* Subtil “golfbana”-bakgrund: fairway + green + hål/flagga, med låg opacitet */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.18;
+      background:
+        radial-gradient(circle at 70% 78%, rgba(255,255,255,0.2) 0, rgba(255,255,255,0.0) 24%), /* "boll" */
+        radial-gradient(circle at 68% 78%, rgba(0,0,0,0.65) 0, rgba(0,0,0,0.0) 40%),            /* skugga till bollen */
+        radial-gradient(circle at 72% 65%, rgba(9, 92, 42, 0.95) 0, rgba(3, 40, 18, 0.0) 40%),  /* green */
+        linear-gradient(115deg, rgba(11, 96, 51, 0.7) 0, rgba(3, 33, 18, 0.0) 55%);             /* fairwaystråk */
+      mix-blend-mode: soft-light;
+      z-index: -1;
     }
 
     .page {
       max-width: 1100px;
       margin: 0 auto;
       padding: 0 20px 60px;
+      position: relative;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
     }
 
     /* Sticky header + nav */
@@ -65,7 +86,6 @@
       transition: box-shadow 0.18s ease-out, background-color 0.18s ease-out, border-color 0.18s ease-out;
     }
 
-    /* Skugga när sidan är scrollad */
     .header-wrapper.scrolled {
       background: rgba(2, 11, 21, 0.97);
       box-shadow: 0 10px 30px rgba(0,0,0,0.85);
@@ -121,7 +141,7 @@
       content: "";
       position: absolute;
       left: 0;
-      bottom: 0;
+ bottom: 0;
       width: 0;
       height: 2px;
       background: linear-gradient(90deg, var(--gold), var(--green));
@@ -211,7 +231,7 @@
       color: var(--text-light);
     }
 
-    /* Snabb-länkar överst till event-sajterna */
+    /* Snabb-länkar överst till event-sajterna (ENDAST KNAPPAR) */
 
     .top-events-links {
       margin-top: 8px;
@@ -221,13 +241,6 @@
       font-size: 0.8rem;
       align-items: center;
       color: var(--text-muted);
-    }
-
-    .top-events-label {
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      font-size: 0.7rem;
-      opacity: 0.9;
     }
 
     .top-events-links a {
@@ -249,7 +262,7 @@
 
     .top-events-links a:hover {
       background: linear-gradient(135deg, rgba(212,167,74,0.2), rgba(31,122,59,0.2));
-      border-color: vargold);
+      border-color: var(--gold);
       transform: translateY(-1px);
     }
 
@@ -273,21 +286,22 @@
       overflow: hidden;
     }
 
+    /* Subtil extra “green” nere i hörnet i hero */
     .hero::before {
       content: "";
       position: absolute;
       right: -120px;
-      bottom: -120px;
-      width: 320px;
-      height: 320px;
+      bottom: -140px;
+      width: 360px;
+      height: 360px;
       background:
         radial-gradient(circle at 30% 30%, #0b8d3d 0, #064821 46%, #02130a 65%, transparent 66%),
         radial-gradient(circle at 72% 55%, #000 0, #000 20%, transparent 21%);
-      opacity: 0.6;
+      opacity: 0.65;
       filter: blur(1px);
     }
 
-    .hero-kicker {
+    .-kicker {
       text-transform: uppercase;
       letter-spacing: 0.25em;
       font-size: 0.75rem;
@@ -348,64 +362,11 @@
       margin-left: 4px;
     }
 
-    .hero-cta {
-      margin-top: 28px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 10px 22px;
-      border-radius: 999px;
-      border: 1px solid transparent;
-      font-size: 0.9rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
- cursor: pointer;
-      transition: transform 0.12s ease-out, box-shadow 0.12s ease-out, border-color 0.12s ease-out, background 0.12s ease-out;
-      background: none;
-      color: var(--text-light);
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--gold), #f5d58d);
-      color: #1a1a1a;
-      box-shadow: 0 14px 30px rgba(0,0,0,0.6);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 18px 40px rgba(0,0,0,0.7);
-    }
-
-    .btn-outline {
-      border-color: rgba(255,255,255,0.3);
-      color: var(--text-muted);
-      background: rgba(0,0,0,0.35);
-      backdrop-filter: blur(6px);
-    }
-
-    .btn-outline:hover {
-      border-color: var(--gold);
-      color: var(--text-light);
-      transform: translateY(-1px);
-    }
-
-    .btn span.icon {
-      margin-left: 8px;
-      font-size: 1.1em;
-    }
-
     /* Sektioner */
 
     section {
       margin-top: 42px;
-      /* Viktigt: gör att rubriken inte hamnar under headern när man scrollar dit */
-      scroll-margin-top: 90px;
+      scroll-margin-top: 90px; /* så rubriken inte hamnar under headern */
     }
 
     .section-card {
@@ -414,6 +375,24 @@
       padding: 24px 22px 22px;
       border: 1px solid var(--border-soft);
       box-shadow: 0 16px 40px rgba(0,0,0,0.75);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* liten, subtil diagonal highlight som påminner om fairway-stråk */
+    .section-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        125deg,
+        rgba(27,140,74,0.12) 0,
+        rgba(27,140,74,0.0) 45%,
+        rgba(212,167,74,0.04) 75%,
+        transparent 100%
+      );
+      pointer-events: none;
+      mix-blend-mode: soft-light;
     }
 
     .section-heading {
@@ -422,6 +401,8 @@
       justify-content: space-between;
       gap: 12px;
       margin-bottom: 18px;
+      position: relative;
+      z-index: 1;
     }
 
     .section-title {
@@ -429,6 +410,13 @@
       text-transform: uppercase;
       letter-spacing: 0.2em;
       color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .section-title-emoji {
+      font-size: 1.2rem;
     }
 
     .section-badge {
@@ -443,6 +431,8 @@
     .section-body {
       font-size: 0.95rem;
       color: var(--text-muted);
+      position: relative;
+      z-index: 1;
     }
 
     .section-body p + p {
@@ -454,14 +444,19 @@
       font-weight: 600;
     }
 
-    /* Små underrubriker i texten */
-
     .sub-heading {
       margin-top: 16px;
       font-size: 0.9rem;
       text-transform: uppercase;
       letter-spacing: 0.16em;
       color: rgba(245,245,245,0.75);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .sub-heading span.icon {
+      font-size: 1rem;
     }
 
     .sub-heading + p {
@@ -478,8 +473,6 @@
     li + li {
       margin-top: 3px;
     }
-
-    /* Responsivitet */
 
     @media (max-width: 720px) {
       header {
@@ -519,7 +512,7 @@
       }
     }
   </style>
-</>
+</head>
 <body>
   <div class="page">
     <!-- Sticky header + topp-länkar -->
@@ -527,7 +520,7 @@
       <header>
         <div class="brand">
           <div class="brand-main">Partille Goes</div>
-          <div class="brand-sub">Ryder Cup inspired golf</div>
+          <div class="brand-sub">Ryder Cup inspired golf ⛳</div>
         </div>
 
         <!-- Desktop-nav -->
@@ -553,9 +546,8 @@
         <a href="#event" onclick="closeMobileNav()">Årliga event</a>
       </nav>
 
-      <!-- Topp-länkar till externa event-sajter -->
+      <!-- Topp-länkar till externa event-sajter: ENDAST KNAPPAR -->
       <div class="top-events-links">
-        <span class="top-events-label">Direkt till senaste upplagorna</span>
         <a href="https://partillegoes.github.io/barseback/" target="_blank" rel="noopener noreferrer">
           PGB 2026 <span class="icon">↗</span>
         </a>
@@ -571,9 +563,9 @@
         <div class="hero-kicker">Ryder Cup känsla &middot; Kamratskap & Tävlingsnerv</div>
         <h1 class="hero-title">
           <span class="highlight">Partille Goes…</span><br />
-          ett storslaget<br />golfevent i gentlemananda
+          ett storslaget<br />golfevent i gentlemananda ⛳
         </h1>
-        <p class="hero-subtitle">
+       <p class="hero-subtitle">
           <strong>Partille Goes…</strong> är ett årligt, Ryder Cup–liknande golfevent – i första hand
           för spelare i klubblagen för seriespel på <strong>Partille GK</strong> – som
           älskar att tävla, spela, andas och snacka golf. Det är på allvar, men alltid i en varm
@@ -588,26 +580,19 @@
           </div>
           <div class="meta-pill">
             <span class="meta-label">Kärna</span>
-            <span class="meta-value">Gentleman’s Game & respekt på banan</span>
+            <span class="meta-value">Gentleman’s Game & respekt på banan 🏌️‍♂️</span>
           </div>
         </div>
-
-        <div class="hero-cta">
-          <a class="btn btn-primary" href="#event">
-            Till de årliga eventen
-            <span class="icon">↓</span>
-          </a>
-          <a class="btn btn-outline" href="#format">
-            Läs om grunderna
-          </a>
-        </div>
+        <!-- CTA-knappar borttagna enligt önskemål -->
       </section>
 
       <!-- OM EVENTET -->
       <section id="om">
         <div class="section-card">
           <div class="section-heading">
-            <h2 class="section-title">Om Partille Goes</h2>
+            <h2 class="section-title">
+              <span class="section-title-emoji">🏌️‍♂️</span> Om Partille Goes
+            </h2>
             <div class="section-badge">Tävlingsglädje & Kamratskap</div>
           </div>
           <div class="section-body">
@@ -638,7 +623,9 @@
       <section id="format">
         <div class="section-card">
           <div class="section-heading">
-            <h2 class="section-title">Grunderna i eventet</h2>
+            <h2 class="section-title">
+              <span class="section-title-emoji">⛳</span> Grunderna i eventet
+            </h2>
             <div class="section-badge">Format & Spelidé</div>
           </div>
           <div class="section-body">
@@ -648,7 +635,7 @@
               laganda och tempo på banan är lika viktigt som resultatet.
             </p>
 
-            <div class="sub-heading">Matchdagar & upplägg</div>
+            <div class="sub-heading"><span class="icon">📅</span> Matchdagar & upplägg</div>
             <p>
               Tävlingen är uppdelad i tre lagrundor och en avslutande singelrunda:
             </p>
@@ -657,17 +644,19 @@
               <li><strong>Runda 4:</strong> Singlar – head to head, där varje match kan bli helt avgörande.</li>
             </ul>
 
-            <div class="sub-heading">Lag, par & singelmatcher</div>
+            <div class="sub-heading"><span class="icon">👥</span> Lag, par & singelmatcher</div>
             <p>
               Inför varje runda sätter respektive lags kapten upp laguppställningen tillsammans med laget.
             </p>
             <ul>
               <li>Under bästbolls–rundorna formar kaptenerna paren fritt.</li>
-              <li>Sista dagens singelmatcher sätts upp i <strong>stigande handicap</strong>:
-                båda lagens högst rankade spelare möts, därefter näst högst, och så vidare.</li>
+              <li>
+                Sista dagens singelmatcher sätts upp i <strong>stigande handicap</strong>:
+                båda lagens högst rankade spelare möts, därefter näst högst, och så vidare.
+              </li>
             </ul>
 
-            <div class="sub-heading">Speltempo & respekt på banan</div>
+            <div class="sub-heading"><span class="icon">⏱️</span> Speltempo & respekt på banan</div>
             <p>
               Eventet ska alltid fungera i harmoni med banans övriga spelare. Därför är
               <strong>tempo och respekt</strong> tydligt reglerat:
@@ -690,56 +679,14 @@
         </div>
       </section>
 
-      <!-- ÅRLIGA EVENT (utan länkkort, bara info-text) -->
+      <!-- ÅRLIGA EVENT (kort info, länkar bara i toppen) -->
       <section id="event">
         <div class="section-card">
           <div class="section-heading">
-            <h2 class="section-title">Årliga event</h2>
+            <h2 class="section-title">
+              <span class="section-title-emoji">📖</span> Årliga event
+            </h2>
             <div class="section-badge">Partille Goes…</div>
           </div>
           <div class="section-body">
-            <p>
-              Varje upplaga av <strong>Partille Goes…</strong> får sin egen historia, plats och karaktär.
-              De senaste årens event – som till exempel <strong>Partille Goes Barsebäck</strong> – hittar du
-              via genvägarna högst upp på sidan.
-            </p>
-          </div>
-        </div>
-      </section>
-    </main>
-  </div>
-
-  <script>
-    function toggleMobileNav() {
-      var nav = document.getElementById('nav-mobile');
-      if (nav.classList.contains('open')) {
-        nav.classList.remove('open');
-      } else {
-        nav.classList.add('open');
-      }
-    }
-
-    function closeMobileNav() {
-      var nav = document.getElementById('nav-mobile');
-      nav.classList.remove('open');
-    }
-
-    // Skugga på header när man scrollar
-    (function () {
-      var header = document.getElementById('header-wrapper');
-      if (!header) return;
-
-      function onScroll() {
-        if (window.scrollY > 4) {
-          header.classList.add('scrolled');
-        } else {
-          header.classList.remove('scrolled');
-        }
-      }
-
-      window.addEventListener('scroll', onScroll, { passive: true });
-      onScroll();
-    })();
-  </script>
-</body>
-</html>
+         
