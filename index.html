@@ -270,7 +270,7 @@
       transform: translateY(-1px);
     }
 
-    /* Hero */
+    /* Hero (START) – ljusgrön ruta borttagen */
 
     main {
       margin-top: 10px;
@@ -282,7 +282,8 @@
       border-radius: 22px;
       background:
         radial-gradient(circle at 20% 0%, rgba(212,167,74,0.18) 0, rgba(0,0,0,0) 55%),
-        radial-gradient(circle at 100% 20%, rgba(31,122,59,0.5) 0, rgba(0,0,0,0) 55%),
+        /* svagare grön ton utan skarp ruta */
+        radial-gradient(circle at 100% 20%, rgba(31,122,59,0.2) 0, rgba(0,0,0,0) 55%),
         linear-gradient(135deg, rgba(2,11,21,0.98), rgba(2,18,14,0.98));
       box-shadow: var(--shadow-soft);
       border: 1px solid var(--border-soft);
@@ -290,20 +291,7 @@
       overflow: hidden;
     }
 
-    /* Subtil extra “green” nere i hörnet i hero */
-    .hero::before {
-      content: "";
-      position: absolute;
-      right: -120px;
-      bottom: -140px;
-      width: 360px;
-      height: 360px;
-      background:
-        radial-gradient(circle at 30% 30%, #0b8d3d 0, #064821 46%, #02130a 65%, transparent 66%),
-        radial-gradient(circle at 72% 55%, #000 0, #000 20%, transparent 21%);
-      opacity: 0.8;
-      filter: blur(1px);
-    }
+    /* pseudo-elementet som gav en tydlig grön form är borttaget */
 
     .hero-kicker {
       text-transform: uppercase;
