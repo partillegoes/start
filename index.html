@@ -62,6 +62,14 @@
       border-bottom: 1px solid rgba(255,255,255,0.08);
       margin: 0 -20px 10px;
       padding: 8px 20px 10px;
+      transition: box-shadow 0.18s ease-out, background-color 0.18s ease-out, border-color 0.18s ease-out;
+    }
+
+    /* Skugga när sidan är scrollad */
+    .header-wrapper.scrolled {
+      background: rgba(2, 11, 21, 0.97);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.85);
+      border-color: rgba(255,255,255,0.16);
     }
 
     header {
@@ -91,7 +99,7 @@
       color: var(--text-muted);
     }
 
-    /* Desktop-nav (syns bara på större skärmar) */
+    /* Desktop-nav */
 
     .nav-desktop {
       display: flex;
@@ -131,14 +139,13 @@
     /* Mobil: hamburgermeny */
 
     .nav-toggle {
-      display: none; /* visas på mobil via media query */
+      display: none;
       background: transparent;
       border: 1px solid rgba(255,255,255,0.35);
       border-radius: 999px;
       padding: 6px 10px;
       color: var(--text-light);
       cursor: pointer;
-      display: none;
       align-items: center;
       gap: 8px;
       font-size: 0.8rem;
@@ -242,7 +249,7 @@
 
     .top-events-links a:hover {
       background: linear-gradient(135deg, rgba(212,167,74,0.2), rgba(31,122,59,0.2));
-      border-color: var(--gold);
+      border-color: vargold);
       transform: translateY(-1px);
     }
 
@@ -358,7 +365,7 @@
       font-size: 0.9rem;
       text-transform: uppercase;
       letter-spacing: 0.16em;
-      cursor: pointer;
+ cursor: pointer;
       transition: transform 0.12s ease-out, box-shadow 0.12s ease-out, border-color 0.12s ease-out, background 0.12s ease-out;
       background: none;
       color: var(--text-light);
@@ -397,6 +404,8 @@
 
     section {
       margin-top: 42px;
+      /* Viktigt: gör att rubriken inte hamnar under headern när man scrollar dit */
+      scroll-margin-top: 90px;
     }
 
     .section-card {
@@ -445,65 +454,18 @@
       font-weight: 600;
     }
 
-    /* Årliga event */
+    /* Små underrubriker i texten */
 
-    .events-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px;
-      margin-top: 8px;
-    }
-
-    .event-card {
-      position: relative;
-      border-radius: 16px;
-      padding: 16px 15px 14px;
-      background: radial-gradient(circle at top left, rgba(212,167,74,0.18), transparent 60%),
-                  radial-gradient(circle at bottom right, rgba(31,122,59,0.4), transparent 70%);
-      border: 1px solid rgba(255,255,255,0.12);
-      overflow: hidden;
-      cursor: pointer;
-      transition: transform 0.16s ease-out, box-shadow 0.16s ease-out, border-color 0.16s ease-out, background 0.16s ease-out;
-    }
-
-    .event-card::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-image: linear-gradient(120deg, rgba(0,0,0,0.85), rgba(0,0,0,0.5));
-      mix-blend-mode: multiply;
-      opacity: 0.8;
-      pointer-events: none;
-    }
-
-    .event-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 18px 36px rgba(0,0,0,0.85);
-      border-color: var(--gold);
-    }
-
-    .event-content {
-      position: relative;
-      z-index: 1;
-    }
-
-    .event-year {
-      font-size: 0.8rem;
+    .sub-heading {
+      margin-top: 16px;
+      font-size: 0.9rem;
       text-transform: uppercase;
-      letter-spacing: 0.2em;
-      color: rgba(245,245,245,0.78);
-      margin-bottom: 6px;
+      letter-spacing: 0.16em;
+      color: rgba(245,245,245,0.75);
     }
 
-    .event-name {
-      font-size: 1.05rem;
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-
-    .event-meta {
-      font-size: 0.8rem;
-      color: var(--text-muted);
+    .sub-heading + p {
+      margin-top: 6px;
     }
 
     /* Lista / bullets */
@@ -544,6 +506,10 @@
       .section-card {
         padding: 18px 16px 16px;
       }
+
+      section {
+        scroll-margin-top: 100px;
+      }
     }
 
     @media (min-width: 721px) {
@@ -553,11 +519,11 @@
       }
     }
   </style>
-</head>
+</>
 <body>
   <div class="page">
     <!-- Sticky header + topp-länkar -->
-    <div class="header-wrapper">
+    <div class="header-wrapper" id="header-wrapper">
       <header>
         <div class="brand">
           <div class="brand-main">Partille Goes</div>
@@ -568,7 +534,7 @@
         <nav class="nav-desktop">
           <a href="#top">Start</a>
           <a href="#om">Om Partille Goes</a>
-          <a href="#format">Spelformat</a>
+          <a href="#format">Grunderna i eventet</a>
           <a href="#event">Årliga event</a>
         </nav>
 
@@ -583,12 +549,13 @@
       <nav class="nav-mobile" id="nav-mobile">
         <a href="#top" onclick="closeMobileNav()">Start</a>
         <a href="#om" onclick="closeMobileNav()">Om Partille Goes</a>
-        <a href="#format" onclick="closeMobileNav()">Spelformat</a>
+        <a href="#format" onclick="closeMobileNav()">Grunderna i eventet</a>
         <a href="#event" onclick="closeMobileNav()">Årliga event</a>
       </nav>
 
       <!-- Topp-länkar till externa event-sajter -->
       <div class="top-events-links">
+        <span class="top-events-label">Direkt till senaste upplagorna</span>
         <a href="https://partillegoes.github.io/barseback/" target="_blank" rel="noopener noreferrer">
           PGB 2026 <span class="icon">↗</span>
         </a>
@@ -631,7 +598,7 @@
             <span class="icon">↓</span>
           </a>
           <a class="btn btn-outline" href="#format">
-            Läs om spelformatet
+            Läs om grunderna
           </a>
         </div>
       </section>
@@ -667,7 +634,7 @@
         </div>
       </section>
 
-      <!-- SPELFORMAT / GRUNDERNA -->
+      <!-- GRUNDERNA I EVENTET -->
       <section id="format">
         <div class="section-card">
           <div class="section-heading">
@@ -676,92 +643,65 @@
           </div>
           <div class="section-body">
             <p>
-              Tävlingen spelas över <strong>3 dagar</strong> och totalt <strong>72 hål</strong>.
-              Allt spel sker som <strong>matchspel</strong> med
-              <strong>formatreducerat handicap</strong>.
+              Partille Goes spelas över <strong>3 dagar</strong> och totalt <strong>72 hål</strong>.
+              Allt spel är <strong>matchspel</strong> med <strong>formatreducerat handicap</strong>, där
+              laganda och tempo på banan är lika viktigt som resultatet.
             </p>
+
+            <div class="sub-heading">Matchdagar & upplägg</div>
             <p>
-              <strong>Matchdagarna:</strong>
+              Tävlingen är uppdelad i tre lagrundor och en avslutande singelrunda:
             </p>
             <ul>
-              <li><strong>Runda 1–3:</strong> Bästboll (lagspel, matchspel).</li>
-              <li><strong>Runda 4:</strong> Singlar – head to head, där allt avgörs.</li>
+              <li><strong>Runda 1–3:</strong> Bästboll – lagspel i tvåmannalag, match mot ett par i motståndarlaget.</li>
+              <li><strong>Runda 4:</strong> Singlar – head to head, där varje match kan bli helt avgörande.</li>
             </ul>
 
+            <div class="sub-heading">Lag, par & singelmatcher</div>
             <p>
-              <strong>Lag och uppställning:</strong>
+              Inför varje runda sätter respektive lags kapten upp laguppställningen tillsammans med laget.
             </p>
             <ul>
-              <li>Inför varje match sätter respektive lags kapten upp lagen tillsammans med laget.</li>
-              <li>Under bästbolls–rundorna formas paren fritt av kaptenerna.</li>
-              <li>
-                Sista dagens singelmatcher sätts upp i <strong>stigande handicap</strong> – där
-                båda lagens högst rankade spelare möts, därefter näst högst osv.
-              </li>
+              <li>Under bästbolls–rundorna formar kaptenerna paren fritt.</li>
+              <li>Sista dagens singelmatcher sätts upp i <strong>stigande handicap</strong>:
+                båda lagens högst rankade spelare möts, därefter näst högst, och så vidare.</li>
             </ul>
 
+            <div class="sub-heading">Speltempo & respekt på banan</div>
             <p>
-              <strong>Speltempo & respekt på banan:</strong>
-            </p>
-            <p>
-              Spelformatet ska alltid respektera andra spelare ute på banan:
+              Eventet ska alltid fungera i harmoni med banans övriga spelare. Därför är
+              <strong>tempo och respekt</strong> tydligt reglerat:
             </p>
             <ul>
               <li>
-                Håller bollen ett <strong>gott speltempo</strong> och rör sig i harmoni med
-                dagens tempo på klubben, spelar man självklart färdigt alla slag.
+                Håller bollen ett <strong>gott speltempo</strong> och följer dagens naturliga flöde på klubben,
+                spelas hålen klart som vanligt.
               </li>
               <li>
-                Trycker bollen bakom på, eller om man <strong>tappar kontakt</strong> med bollen
-                framför, ska hålet stängas så snart någon vunnit hålet.
+                Trycker bollen bakom på, eller om man <strong>tappar kontakt</strong> med bollen framför,
+                ska hålet stängas så snart det är avgjort.
               </li>
               <li>
-                När hålet är avgjort plockas bollar upp och man går vidare – allt för att visa
-                <strong>respekt för övriga spelare</strong> på banan.
+                När hålet är vunnet eller delat plockas bollar upp och man går direkt vidare till nästa tee –
+                av respekt för övriga spelare på banan.
               </li>
             </ul>
           </div>
         </div>
       </section>
 
-      <!-- ÅRLIGA EVENT -->
+      <!-- ÅRLIGA EVENT (utan länkkort, bara info-text) -->
       <section id="event">
         <div class="section-card">
           <div class="section-heading">
             <h2 class="section-title">Årliga event</h2>
-            <div class="section-badge">Partille Goes Barsebäck</div>
+            <div class="section-badge">Partille Goes…</div>
           </div>
           <div class="section-body">
             <p>
-              Varje upplaga av Partille Goes får sin egen identitet och historia. Här hittar du de
-              tidigare eventen på Barsebäck:
-            </p>
-
-            <div class="events-grid">
-              <a class="event-card" href="https://partillegoes.github.io/barseback/" target="_blank" rel="noopener noreferrer">
-                <div class="event-content">
-                  <div class="event-year">Årsupplaga</div>
-                  <div class="event-name">Partille Goes Barsebäck 2026</div>
-                  <div class="event-meta">
-                    Den första Barsebäck–upplagan – startskottet för något större.
-                  </div>
-                </div>
-              </a>
-
-              <a class="event-card" href="https://partillegoes.github.io/barseback2027/" target="_blank" rel="noopener noreferrer">
-                <div class="event-content">
-                  <div class="event-year">Årsupplaga</div>
-                  <div class="event-name">Partille Goes Barsebäck 2027</div>
-                  <div class="event-meta">
-                    Uppföljaren där rivaliteterna skärptes och traditionen befästes.
-                  </div>
-                </div>
-              </a>
-            </div>
-
-            <p style="margin-top: 14px; font-size: 0.9rem; color: var(--text-muted);">
-              Fler upplagor av <strong>Partille Goes…</strong> kommer att läggas till här när
-              historien fortsätter att spelas – hål för hål.
+              Varje upplaga av <strong>Partille Goes…</strong> får sin egen historia, plats och karaktär.
+              De senaste årens event – som till exempel <strong>Partille Goes Barsebäck</strong> – hittar du
+              via genvägarna högst upp på sidan.
             </p>
           </div>
         </div>
@@ -783,6 +723,23 @@
       var nav = document.getElementById('nav-mobile');
       nav.classList.remove('open');
     }
+
+    // Skugga på header när man scrollar
+    (function () {
+      var header = document.getElementById('header-wrapper');
+      if (!header) return;
+
+      function onScroll() {
+        if (window.scrollY > 4) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
   </script>
 </body>
 </html>
