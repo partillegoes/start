@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="sv">
 <head>
@@ -24,6 +23,10 @@
       padding: 0;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background: radial-gradient(circle at top, #07401f 0, #020b15 45%, #000000 100%);
@@ -37,25 +40,41 @@
       text-decoration: none;
     }
 
-    /* Layout */
-
     .page {
       max-width: 1100px;
       margin: 0 auto;
-      padding: 20px 20px 60px;
+      padding: 0 20px 60px;
+    }
+
+    /* Sticky header + nav */
+
+    .header-wrapper {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(16px);
+      background: linear-gradient(
+        to bottom,
+        rgba(2, 11, 21, 0.92),
+        rgba(2, 11, 21, 0.85),
+        rgba(2, 11, 21, 0.0)
+      );
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      margin: 0 -20px 10px;
+      padding: 8px 20px 10px;
     }
 
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px 0 20px;
+      gap: 16px;
     }
 
     .brand {
       display: flex;
-      align-items: baseline;
-      gap: 6px;
+      flex-direction: column;
+      gap: 2px;
       letter-spacing: 0.08em;
     }
 
@@ -67,15 +86,16 @@
     }
 
     .brand-sub {
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       text-transform: uppercase;
       color: var(--text-muted);
     }
 
     nav {
       display: flex;
+      flex-wrap: wrap;
       gap: 18px;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       text-transform: uppercase;
       letter-spacing: 0.12em;
     }
@@ -84,6 +104,7 @@
       position: relative;
       padding-bottom: 2px;
       color: var(--text-muted);
+      white-space: nowrap;
     }
 
     nav a::after {
@@ -105,7 +126,53 @@
       width: 100%;
     }
 
+    /* Snabb-länkar överst till event-sajterna */
+
+    .top-events-links {
+      margin-top: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 0.8rem;
+      align-items: center;
+      color: var(--text-muted);
+    }
+
+    .top-events-label {
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 0.7rem;
+      opacity: 0.9;
+    }
+
+    .top-events-links a {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.25);
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(8px);
+      transition: background 0.15s ease-out, border-color 0.15s ease-out, transform 0.1s ease-out;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .top-events-links a span.icon {
+      font-size: 0.9em;
+    }
+
+    .top-events-links a:hover {
+      background: linear-gradient(135deg, rgba(212,167,74,0.2), rgba(31,122,59,0.2));
+      border-color: var(--gold);
+      transform: translateY(-1px);
+    }
+
     /* Hero */
+
+    main {
+      margin-top: 10px;
+    }
 
     .hero {
       margin-top: 10px;
@@ -122,7 +189,6 @@
     }
 
     .hero::before {
-      /* abstrakt golf-green/cup-känsla */
       content: "";
       position: absolute;
       right: -120px;
@@ -138,7 +204,7 @@
 
     .hero-kicker {
       text-transform: uppercase;
-      letter-spacing: .25em;
+      letter-spacing: 0.25em;
       font-size: 0.75rem;
       color: var(--text-muted);
       margin-bottom: 10px;
@@ -284,6 +350,7 @@
       letter-spacing: 0.18em;
       color: var(--gold);
       opacity: 0.9;
+      white-space: nowrap;
     }
 
     .section-body {
@@ -378,16 +445,20 @@
       header {
         flex-direction: column;
         align-items: flex-start;
-        gap: 10px;
+        gap: 8px;
+      }
+
+      nav {
+        font-size: 0.78rem;
+        gap: 12px;
+      }
+
+      .top-events-links {
+        font-size: 0.78rem;
       }
 
       .hero {
         padding: 28px 20px;
-      }
-
-      nav {
-        font-size: 0.8rem;
-        flex-wrap: wrap;
       }
 
       .section-card {
@@ -398,17 +469,31 @@
 </head>
 <body>
   <div class="page">
-    <header>
-      <div class="brand">
-        <div class="brand-main">Partille Goes</div>
-        <div class="brand-sub">Ryder Cup inspired golf</div>
+    <!-- Sticky header + topp-länkar -->
+    <div class="header-wrapper">
+      <header>
+        <div class="brand">
+          <div class="brand-main">Partille Goes</div>
+          <div class="brand-sub">Ryder Cup inspired golf</div>
+        </div>
+        <nav>
+          <a href="#top">Start</a>
+          <a href="#om">Om Partille Goes</a>
+          <a href="#format">Spelformat</a>
+          <a href="#event">Årliga event</a>
+        </nav>
+      </header>
+
+      <div class="top-events-links">
+        <span class="top-events-label">Direkt till senaste upplagorna</span>
+        <a href="https://partillegoes.github.io/barseback/" target="_blank" rel="noopener noreferrer">
+          PG Barsebäck 2026 <span class="icon">↗</span>
+        </a>
+        <a href="https://partillegoes.github.io/barseback2027/" target="_blank" rel="noopener noreferrer">
+          PG Barsebäck 2027 <span class="icon">↗</span>
+        </a>
       </div>
-      <nav>
-        <a href="#om">Om Partille Goes</a>
-        <a href="#format">Spelformat</a>
-        <a href="#event">Årliga event</a>
-      </nav>
-    </header>
+    </div>
 
     <main>
       <!-- HERO / INTRO -->
@@ -439,7 +524,7 @@
         <div class="hero-cta">
           <a class="btn btn-primary" href="#event">
             Till de årliga eventen
-            <span class="icon">↗</span>
+            <span class="icon">↓</span>
           </a>
           <a class="btn btn-outline" href="#format">
             Läs om spelformatet
